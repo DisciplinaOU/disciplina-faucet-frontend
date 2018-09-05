@@ -1,7 +1,7 @@
 {
   "welcomeMsg": "Here you can get tokens to test DISCIPLINA Blockchain",
   "fauset": "faucet",
-  "walletPlaceholder": "Enter your wallet address and get tokens:",
+  "walletPlaceholder": "Enter your wallet address and get tokens",
   "getTokensBtn": "Get tokens",
   "noWallet": "No wallet? Create it here:",
   "generateWalletBtn": "Generate wallet",
