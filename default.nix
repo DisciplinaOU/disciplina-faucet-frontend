@@ -1,23 +1,10 @@
-{ stdenv, faucetUrl ? "", yarn, parallel, brotli }:
-stdenv.mkDerivation {
-  name = "disciplina-faucet-frontend";
-  src = stdenv.lib.cleanSource ./.;
-  FAUCET_API_URL = faucetUrl;
-  HOME = ".";
+{ faucetUrl ? "" }:
+let
+  pkgs = import (fetchTarball "https://github.com/serokell/nixpkgs/archive/master.tar.gz") {
+    config.allowUnfree = true;
+    overlays = [ (import "${fetchGit "ssh://git@github.com:/serokell/serokell-overlay"}/pkgs") ];
+  };
 
-  buildInputs = [ yarn parallel brotli ];
-  buildPhase = ''
-    yarn install
-    yarn build
-    find dist/ -type f \
-      -not -name '*.jpg' \
-      -not -name '*.png' \
-      -not -name '*.webp' \
-      -not -name '*.woff' \
-      -not -name '*.woff2' | parallel brotli
-  '';
-
-  installPhase = ''
-    mv dist $out
-  '';
+in pkgs.callPackage ./release.nix {
+  inherit faucetUrl;
 }
