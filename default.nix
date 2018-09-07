@@ -1,4 +1,4 @@
-{ faucetUrl ? "" }:
+{ faucetUrl ? null }:
 let
   pkgs = import (fetchTarball "https://github.com/serokell/nixpkgs/archive/master.tar.gz") {
     config.allowUnfree = true;

@@ -1,4 +1,4 @@
-{ stdenv, faucetUrl ? "", yarn, parallel, brotli }:
+{ stdenv, faucetUrl ? null, yarn, parallel, brotli }:
 stdenv.mkDerivation {
   name = "disciplina-faucet-frontend";
   src = stdenv.lib.cleanSource ./.;

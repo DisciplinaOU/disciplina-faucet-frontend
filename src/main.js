@@ -14,7 +14,8 @@ import Ko from './locales/ko-KR.json'
 
 import './assets/css/index.scss'
 
-const apiBaseUrl = process.env.FAUCET_API_URL || 'https://faucet.disciplina.io'
+const apiBaseUrl = 'FAUCET_API_URL' in process.env
+  ? process.env.FAUCET_API_URL : 'https://faucet.disciplina.io'
 Vue.prototype.$axios = axios.create({
   baseURL: apiBaseUrl + '/api/faucet/v1'
 })

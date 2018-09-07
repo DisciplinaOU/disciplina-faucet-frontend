@@ -12,7 +12,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
-env.FAUCET_API_URL = process.env.FAUCET_API_URL ? '"' + process.env.FAUCET_API_URL + '"' : env.FAUCET_API_URL;
+env.FAUCET_API_URL = 'FAUCET_API_URL' in process.env ? '"' + process.env.FAUCET_API_URL + '"' : env.FAUCET_API_URL;
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
