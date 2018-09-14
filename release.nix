@@ -1,7 +1,7 @@
 { stdenv, faucetUrl ? null, yarn, parallel, brotli }:
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   name = "disciplina-faucet-frontend";
-  src = stdenv.lib.cleanSource ./.;
+  src = builtins.path { path = ./.; inherit name; filter = stdenv.lib.cleanSourceFilter; };
   FAUCET_API_URL = faucetUrl;
   HOME = ".";
 
