@@ -1,23 +1,12 @@
-{ stdenv, faucetUrl ? null, yarn, parallel, brotli }:
-stdenv.mkDerivation rec {
-  name = "disciplina-faucet-frontend";
-  src = builtins.path { path = ./.; inherit name; filter = stdenv.lib.cleanSourceFilter; };
+{ lib, faucetUrl ? null, buildNpmPackage }:
+buildNpmPackage {
   FAUCET_API_URL = faucetUrl;
-  HOME = ".";
+  lockfile = ./package-lock.json;
+  src = builtins.path {
+    name = "serokell.io-website";
+    path = ./.;
+    filter = name: type: lib.cleanSourceFilter name type &&
+      (name != "node_modules") && name != "dist";
+  };
 
-  buildInputs = [ yarn parallel brotli ];
-  buildPhase = ''
-    yarn install
-    yarn build
-    find dist/ -type f \
-      -not -name '*.jpg' \
-      -not -name '*.png' \
-      -not -name '*.webp' \
-      -not -name '*.woff' \
-      -not -name '*.woff2' | parallel brotli
-  '';
-
-  installPhase = ''
-    mv dist $out
-  '';
 }
