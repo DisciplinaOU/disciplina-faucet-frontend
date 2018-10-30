@@ -1,4 +1,5 @@
 import (fetchGit {
   url = https://github.com/serokell/serokell-closure;
-  rev = "b11dd4176c79f3c014e8bfc64e19023b788a341d";
+  rev = "5ab82488518d978858a380f5d938cd520d9d50ac";
+  ref = "nix-npm-buildpackage";
 })
