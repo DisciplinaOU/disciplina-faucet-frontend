@@ -1,4 +1,5 @@
-{ lib, faucetUrl ? null, buildYarnPackage, parallel, brotli, fetchurl }:
+{ lib, faucetUrl ? null, buildYarnPackage, constGitIgnore, parallel, brotli
+, fetchurl }:
 
 buildYarnPackage {
   FAUCET_API_URL = faucetUrl;
@@ -24,10 +25,5 @@ buildYarnPackage {
     mv dist $out
   '';
 
-  src = builtins.path {
-    name = "disciplina-faucet-frontend";
-    path = ./.;
-    filter = name: type: lib.cleanSourceFilter name type &&
-      (name != "node_modules") && name != "dist";
-  };
+  src = constGitIgnore "disciplina-faucet-frontend" ./. [];
 }
