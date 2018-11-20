@@ -1,14 +1,16 @@
-{ stdenv, faucetUrl ? null, yarn, parallel, brotli }:
-stdenv.mkDerivation rec {
-  name = "disciplina-faucet-frontend";
-  src = builtins.path { path = ./.; inherit name; filter = stdenv.lib.cleanSourceFilter; };
-  FAUCET_API_URL = faucetUrl;
-  HOME = ".";
+{ lib, faucetUrl ? null, buildYarnPackage, constGitIgnore, parallel, brotli
+, fetchurl }:
 
-  buildInputs = [ yarn parallel brotli ];
-  buildPhase = ''
-    yarn install
-    yarn build
+buildYarnPackage {
+  FAUCET_API_URL = faucetUrl;
+  SASS_BINARY_PATH = fetchurl {
+    url = https://github.com/sass/node-sass/releases/download/v4.9.3/linux-x64-64_binding.node;
+    sha256 = "0i2968by6qir59s7fls5sps13b5cpy66mdr1sp9dgqiddjp20x0n";
+  };
+
+  buildInputs = [ parallel brotli ];
+
+  postBuild = ''
     find dist/ -type f \
       -not -name '*.jpg' \
       -not -name '*.png' \
@@ -17,7 +19,11 @@ stdenv.mkDerivation rec {
       -not -name '*.woff2' | parallel brotli
   '';
 
+  preInstallPhases = [];
+
   installPhase = ''
     mv dist $out
   '';
+
+  src = constGitIgnore "disciplina-faucet-frontend" ./. [];
 }
